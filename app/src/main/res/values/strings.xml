@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SimpleDataBinding</string>
+    <string name="syso_debugger">debugger</string>
+    <string name="default_vl">default</string>
+</resources>

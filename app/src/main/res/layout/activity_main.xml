@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?><!--structure of data-binding layout
+
+<layout ...>
+
+    <data>
+        <variable
+            name="..."
+            type="..." />
+    </data>
+
+       YOUR LAYOUT
+    <LinearLayout ...></LinearLayout>
+
+    </layout>
+
+-->
+
+<!-- @{} is expression meaning you can put code inside -->
+
+<!--  android:text="@{Integer.toString(question.score)}"  DISPLAY NUMERIC VALUES -->
+
+<!--
+<import type = "anroid.text.Html/>"
+this how you import
+-->
+
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <!--after clean, rebuild you will not be able to change variable name-->
+        <variable
+            name="person"
+            type="com.happytrees.simpledatabinding.Person" />
+
+        <variable
+            name="counter"
+            type="com.happytrees.simpledatabinding.Counter" />
+
+        <variable
+            name="handlers"
+            type="com.happytrees.simpledatabinding.MyClickHandlers" />
+
+        <variable
+            name="activity"
+            type="com.happytrees.simpledatabinding.MainActivity"/>
+
+    </data>
+
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <!--normal button-->
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
+        <!--bound button-->
+        <Button
+            android:onClick="@{handlers::onButtonClicked}"
+            android:onLongClick="@{handlers::onButtonLongPressed}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bound Button" />
+        <!--using methods with params-->
+        <Button
+            android:text="bound button 2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick = "@{(v)->handlers.onButton2Clicked(v, person)}"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BUTTON 2"
+            android:id="@+id/btn2"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Counter++"
+            android:id="@+id/btn3"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change Text3"
+            android:id="@+id/btn4"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{person.name, default = @string/default_vl }" />
+        <!--default =something - displays default value in design preview-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{person.lastName, default = @string/default_vl }"/>
+
+        <!--observable tv  by means of extending BaseObservable -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{person.thirdName + " observed by extending BaseObservable" }'/>
+
+        <!--observable tv by means of  ObservableInt -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text= '@{counter.counterObservable + " observed by ObservableInt" }'/>
+
+        <!--two way data binding  *view can update model
+                                   just like model can update view
+                                   model is observable
+                                   syntax: "@={}" -->
+        <Switch
+            android:id="@+id/twoWayDataBoundSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@={person.observableBoolean}" />
+
+    </LinearLayout>
+
+</layout>
+
+    <!--Once data binding is integrated in layout file, goto Build -> Clean Project and Build -> Rebuild Project. -->
